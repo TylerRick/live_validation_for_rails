@@ -1,3 +1,4 @@
+#Rails.logger.debug "!!! vendor/plugins/live_validation_for_rails/lib/live_validations.rb"
 module ActiveRecord
   module Validations
 #    LIVE_VALIDATIONS_OPTIONS = {
@@ -41,23 +42,19 @@ module ActiveRecord
         attr_names = args.map(&:to_sym)
 
         attr_names.each do |attr_name|
-          #qualified_attr_name = "#{self.class.name.underscore}[#{attr_name}]"
-          Rails.logger.debug "!!! adding #{type} validation for #{attr_name}: #{options.inspect}"
+          #qualified_attr_name = "#{self.name.underscore}[#{attr_name}]"
+          #Rails.logger.debug "!!! #{self}: adding #{type} validation for #{attr_name}: #{options.inspect}"
           ar_validation_to_jquery(attr_name, type, options.dup)
+          #Rails.logger.debug "!!!   @live_validations[:rules][#{attr_name}]=#{@live_validations[:rules][attr_name].inspect}"
         end
       end
 
-#      def add_live_validation(attr_name, type, configuration = {})
-#        @live_validations ||= {}
-#        @live_validations[attr_name] ||= {}
-#        @live_validations[attr_name][type] = configuration
-#      end
-
       def ar_validation_to_jquery(attr_name, type, options)
-        rules = @live_validations[:rules][attr_name] = {}
+        rules = @live_validations[:rules][attr_name] ||= {}
         case type
         when :presence
           rules[:required] = true
+        else
         end
 
 #        if type == :numericality
